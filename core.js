@@ -18,6 +18,10 @@ class Bytes {
     // const a = this.buffer
     // const b = Bytes.from(_from).buffer
   }
+
+  native () {
+    return Bytes.native(this.buffer)
+  }
 }
 
 module.exports = Bytes

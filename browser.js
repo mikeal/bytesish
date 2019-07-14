@@ -26,5 +26,6 @@ const toArrayBuffer = (_from, _encoding) => {
 const main = (...args) => new Bytes(toArrayBuffer(...args))
 
 Bytes.from = main
+Bytes.native = arg => arg
 
 module.exports = main
