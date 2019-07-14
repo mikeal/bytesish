@@ -14,6 +14,6 @@ const main = (_from, encoding) => {
 }
 
 Bytes.from = main
-Bytes.native = arg => Buffer.from(arg)
+Bytes.native = arg => new Buffer(arg)
 
 module.exports = main
