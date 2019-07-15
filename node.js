@@ -1,19 +1,19 @@
 'use strict'
-const fallback = require('./browser')
-const Bytes = require('./core')
+const fallback = require('./browser').from
+const bytes = require('./core')
 
-// Hack
-global.btoa = str => Buffer.from(str).toString('base64')
-
-const main = (_from, encoding) => {
+bytes.from = (_from, encoding) => {
+  if (_from instanceof ArrayBuffer) return _from
   if (typeof _from === 'string') {
-    return new Bytes(Buffer.from(_from, encoding).buffer)
+    return Buffer.from(_from, encoding).buffer
   }
-  if (Buffer.isBuffer(_from)) return new Bytes(_from.buffer)
+  if (Buffer.isBuffer(_from)) return _from.buffer
   return fallback(_from, encoding)
 }
+bytes.toString = (_from, encoding) => {
+  return Buffer.from(bytes.from(_from)).toString(encoding)
+}
 
-Bytes.from = main
-Bytes.native = arg => new Buffer(arg)
+bytes.native = arg => Buffer.from(bytes.from(arg))
 
-module.exports = main
+module.exports = bytes
