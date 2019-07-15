@@ -50,15 +50,17 @@ let arrayBufferCopy = bytes(base64String, 'base64')
 
 ## Gotchas
 
-All Browser binary types are either ArrayBuffer's or views of a single ArrayBuffer, so
-all of them can be converted to an ArrayBuffer without a memcopy. However, the Node.js
+Most Browser binary types are either ArrayBuffer's or views of a single ArrayBuffer, so
+all of them can be converted to an ArrayBuffer without a memcopy, but it is possible
+to make a TypedArray view of a slice of an ArrayBuffer. In Node.js the
 Buffer API is *sometimes* a view of a single ArrayBuffer and *sometimes* a view of a
 larger ArrayBuffer. When one is used and not the other has a lot to do with the size
 of the buffer (this only happens with small buffers) and how the buffer was created.
 
-Since `bytesish` always created clean `Buffer` instances over a discreet `ArrayBuffer`,
+Since `bytesish` always create clean `Buffer` instances over a discreet `ArrayBuffer`,
 you'll only ever suffer a memcopy **once** if you encounter one of these `Buffer` 
-instances in Node.js. From that point on, not matter how many calls and conversions
+instances in Node.js. The same happens if a `TypeArray` view of a slice is converted.
+From that point on, not matter how many calls and conversions
 happen, you should never suffer another memcopy since `bytesish` can always tell
 that the native `Buffer` objects being sent are for a single `ArrayBuffer`.
 
