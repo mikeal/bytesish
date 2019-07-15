@@ -24,7 +24,7 @@ convert back into an ideal type for the platform your library is running in.
 
 What `bytesish` does:
 
-* Returns an array buffer from any known binary type (zero copy).
+* Returns an array buffer from any known binary type (*mostly* zero copy).
 * Creates an ArrayBuffer from a string with any encoding.
 * Converts an ArrayBuffer to a string of any encoding.
 * Converts an ArrayBuffer to an ideal native object (`Buffer` or `ArrayBuffer`).
@@ -39,7 +39,7 @@ do cross-platform (Node.js and Browsers).
 let bytes = require('bytesish')
 let arrayBuffer = bytes('hello world')
 
-/* zero copy conversions */
+/* *mostly* zero copy conversions */
 arrayBuffer = bytes(Buffer.from('hello world')) // Buffer instance
 arrayBuffer = bytes((new TextEncoder()).encode('hello world')) // Uint8Array
 
@@ -51,7 +51,7 @@ let arrayBufferCopy = bytes(base64String, 'base64')
 ## Gotchas
 
 All Browser binary types are either ArrayBuffer's or views of a single ArrayBuffer, so
-all of them can be converted to an ArrayBuffer without a copy. However, the Node.js
+all of them can be converted to an ArrayBuffer without a memcopy. However, the Node.js
 Buffer API is *sometimes* a view of a single ArrayBuffer and *sometimes* a view of a
 larger ArrayBuffer. When one is used and not the other has a lot to do with the size
 of the buffer (this only happens with small buffers) and how the buffer was created.
