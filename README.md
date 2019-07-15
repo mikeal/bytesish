@@ -15,7 +15,7 @@ use in Browsers the bundler will inject a rather large polyfill for the entire
 avoiding this penalty.
 
 However, there is some good news. No matter what the binary type there's an underlying
-`ArrayBuffer` associated with the instance. This means that you can do **zero copy**
+`ArrayBuffer` associated with the instance. This means that you can *mostly* do **zero copy**
 conversions of any of these types to `ArrayBuffer` and back.
 
 `bytesish` is here to help. This library helps you accept and convert different binary types
@@ -48,4 +48,17 @@ let base64String = bytes.toString(arrayBuffer, 'base64')
 let arrayBufferCopy = bytes(base64String, 'base64')
 ```
 
+## Gotchas
+
+All Browser binary types are either ArrayBuffer's or views of a single ArrayBuffer, so
+all of them can be converted to an ArrayBuffer without a copy. However, the Node.js
+Buffer API is *sometimes* a view of a single ArrayBuffer and *sometimes* a view of a
+larger ArrayBuffer. When one is used and not the other has a lot to do with the size
+of the buffer (this only happens with small buffers) and how the buffer was created.
+
+Since `bytesish` always created clean `Buffer` instances over a discreet `ArrayBuffer`,
+you'll only ever suffer a memcopy **once** if you encounter one of these `Buffer` 
+instances in Node.js. From that point on, not matter how many calls and conversions
+happen, you should never suffer another memcopy since `bytesish` can always tell
+that the native `Buffer` objects being sent are for a single `ArrayBuffer`.
 
