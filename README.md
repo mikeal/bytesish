@@ -39,7 +39,7 @@ do cross-platform (Node.js and Browsers).
 let bytes = require('bytesish')
 let arrayBuffer = bytes('hello world')
 
-/* zero copy conversions */
+/* *mostly* zero copy conversions */
 arrayBuffer = bytes(Buffer.from('hello world')) // Buffer instance
 arrayBuffer = bytes((new TextEncoder()).encode('hello world')) // Uint8Array
 
