@@ -16,7 +16,8 @@ bytes.from = (_from, _encoding) => {
     return (new TextEncoder()).encode(_from).buffer
   } else if (typeof _from === 'object') {
     if (ArrayBuffer.isView(_from)) {
-      return _from.buffer
+      if (_from.byteLength === _from.buffer.byteLength) return _from.buffer
+      else return _from.buffer.slice(_from.byteOffset, _from.byteOffset + _from.byteLength)
     }
   }
   throw new Error('Unkown type. Cannot convert to ArrayBuffer')

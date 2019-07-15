@@ -19,6 +19,9 @@ bytes.toString = (_from, encoding) => {
   return Buffer.from(bytes.from(_from)).toString(encoding)
 }
 
-bytes.native = arg => Buffer.from(bytes.from(arg))
+bytes.native = arg => {
+  if (Buffer.isBuffer(arg)) return arg
+  Buffer.from(bytes.from(arg))
+}
 
 module.exports = bytes
