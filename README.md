@@ -24,7 +24,7 @@ convert back into an ideal type for the platform your library is running in.
 
 What `bytesish` does:
 
-* Returns an array buffer from any known binary type (zero copy).
+* Returns an array buffer from any known binary type (*mostly* zero copy).
 * Creates an ArrayBuffer from a string with any encoding.
 * Converts an ArrayBuffer to a string of any encoding.
 * Converts an ArrayBuffer to an ideal native object (`Buffer` or `ArrayBuffer`).
