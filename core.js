@@ -13,9 +13,9 @@ bytes.sort = (a, b) => {
   b = new DataView(bytes(b))
   const len = length(a, b)
   let i = 0
-  while (i < len) {
-    if (i > a.byteLength) return 1
-    else if (i > b.byteLength) return -1
+  while (i < (len - 1)) {
+    if (i >= a.byteLength) return 1
+    else if (i >= b.byteLength) return -1
 
     if (a.getUint8(i) < b.getUint8(i)) return -1
     else if (a.getUint8(i) > b.getUint8(i)) return 1
