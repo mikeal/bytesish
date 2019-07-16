@@ -10,6 +10,7 @@ const same = (x, y) => assert.ok(tsame(x, y))
 
 test('string conversion', done => {
   const ab = bytes('hello world')
+  assert(ab instanceof DataView)
   const str = bytes.toString(ab)
   same(str, 'hello world')
   done()

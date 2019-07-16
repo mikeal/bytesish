@@ -9,8 +9,8 @@ const length = (a, b) => {
 const bytes = (_from, encoding) => bytes.from(_from, encoding)
 
 bytes.sort = (a, b) => {
-  a = new DataView(bytes(a))
-  b = new DataView(bytes(b))
+  a = bytes(a)
+  b = bytes(b)
   const len = length(a, b)
   let i = 0
   while (i < (len - 1)) {

@@ -3,25 +3,25 @@ const fallback = require('./browser').from
 const bytes = require('./core')
 
 bytes.from = (_from, encoding) => {
-  if (_from instanceof ArrayBuffer) return _from
+  if (_from instanceof DataView) return _from
+  if (_from instanceof ArrayBuffer) return new DataView(_from)
   if (typeof _from === 'string') {
-    return Buffer.alloc(Buffer.byteLength(_from), _from, encoding).buffer
+    _from = Buffer.from(_from, encoding)
   }
   if (Buffer.isBuffer(_from)) {
-    // This Buffer is not a view of a larger ArrayBuffer
-    if (_from.buffer.byteLength === _from.length) return _from.buffer
-    // This Buffer *is* a view of a larger ArrayBuffer so we have to copy it
-    else return _from.buffer.slice(_from.byteOffset, _from.byteOffset + _from.byteLength)
+    return new DataView(_from.buffer, _from.byteOffset, _from.byteLength)
   }
   return fallback(_from, encoding)
 }
 bytes.toString = (_from, encoding) => {
-  return Buffer.from(bytes.from(_from)).toString(encoding)
+  _from = bytes(_from)
+  return Buffer.from(_from.buffer, _from.byteOffset, _from.byteLength).toString(encoding)
 }
 
 bytes.native = arg => {
   if (Buffer.isBuffer(arg)) return arg
-  Buffer.from(bytes.from(arg))
+  arg = bytes(arg)
+  return Buffer.from(arg.buffer, arg.byteOffset, arg.byteLength)
 }
 
 module.exports = bytes
