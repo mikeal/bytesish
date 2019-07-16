@@ -15,11 +15,16 @@ use in Browsers the bundler will inject a rather large polyfill for the entire
 avoiding this penalty.
 
 However, there is some good news. No matter what the binary type there's an underlying
-`ArrayBuffer` associated with the instance. This means that you can *mostly* do **zero copy**
-conversions of any of these types to `ArrayBuffer` and back.
+`ArrayBuffer` associated with the instance. There's also one generic binary view object
+available in both Node.js and Browsers called `DataView`. This means that you can take
+any binary type and do a **zero memcopy** conversion to a `DataView`.
+
+But there are some problems with `DataView`. Not all APIs take it in browsers and almost
+none accept it in Node.js. It's a great API for reading and writing to an `ArrayBuffer`
+but it lacks a lot of other functionality that can be difficult to accomplish cross-platform.
 
 `bytesish` is here to help. This library helps you accept and convert different binary types
-into a consistent type without loading any polyfills or other dependencies, then
+into a consistent type, `DataView`, without loading any polyfills or other dependencies, then
 convert back into an ideal type for the platform your library is running in.
 
 What `bytesish` does:
@@ -27,40 +32,28 @@ What `bytesish` does:
 * Returns an array buffer from any known binary type (*mostly* zero copy).
 * Creates an ArrayBuffer from a string with any encoding.
 * Converts an ArrayBuffer to a string of any encoding.
-* Converts an ArrayBuffer to an ideal native object (`Buffer` or `ArrayBuffer`).
+* Converts an ArrayBuffer to an ideal native object (`Buffer` or `Uint8Array`).
 
-`bytesish` does not create a new Binary API or interface for accessing and manipulating
-binary data, because you can just use `ArrayBuffer` for that. `bytesish` tries to be a
+`bytesish` does not create a new Binary Type for basic accessing and manipulating of
+binary data, because you can just use `DataView` for that. `bytesish` tries to be a
 small piece of code that does not contribute any more than necessary to your bundle size.
 It does this by containing only the binary operations you need that are difficult to
 do cross-platform (Node.js and Browsers).
 
 ```javascript
 let bytes = require('bytesish')
-let arrayBuffer = bytes('hello world')
+let view = bytes('hello world')
 
-/* *mostly* zero copy conversions */
-arrayBuffer = bytes(Buffer.from('hello world')) // Buffer instance
-arrayBuffer = bytes((new TextEncoder()).encode('hello world')) // Uint8Array
+/* zero copy conversions */
+view = bytes(Buffer.from('hello world')) // Buffer instance
+view = bytes((new TextEncoder()).encode('hello world')) // Uint8Array
 
 /* base64 conversions */
-let base64String = bytes.toString(arrayBuffer, 'base64')
-let arrayBufferCopy = bytes(base64String, 'base64')
+let base64String = bytes.toString(view, 'base64')
+base64String = bytes.toString(Buffer.from('hello world'), 'base64')
+base64String = bytes.toString('hello world', 'base64')
+
+/* since this is a string conversion it will create a new binary instance */
+let viewCopy = bytes(base64String, 'base64')
 ```
-
-## Gotchas
-
-Most Browser binary types are either ArrayBuffer's or views of a single ArrayBuffer, so
-all of them can be converted to an ArrayBuffer without a memcopy, but it is possible
-to make a TypedArray view of a slice of an ArrayBuffer. In Node.js the
-Buffer API is *sometimes* a view of a single ArrayBuffer and *sometimes* a view of a
-larger ArrayBuffer. When one is used and not the other has a lot to do with the size
-of the buffer (this only happens with small buffers) and how the buffer was created.
-
-Since `bytesish` always create clean `Buffer` instances over a discreet `ArrayBuffer`,
-you'll only ever suffer a memcopy **once** if you encounter one of these `Buffer` 
-instances in Node.js. The same happens if a `TypeArray` view of a slice is converted.
-From that point on, not matter how many calls and conversions
-happen, you should never suffer another memcopy since `bytesish` can always tell
-that the native `Buffer` objects being sent are for a single `ArrayBuffer`.
 
