@@ -25,5 +25,9 @@ bytes.sort = (a, b) => {
 }
 
 bytes.compare = (a, b) => !bytes.sort(a, b)
+bytes.memcopy = (_from, encoding) => {
+  const b = bytes(_from, encoding)
+  return b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength)
+}
 
 module.exports = bytes

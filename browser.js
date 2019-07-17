@@ -1,4 +1,5 @@
 /* globals atob, btoa */
+/* istanbul ignore file */
 'use strict'
 const bytes = require('./core')
 

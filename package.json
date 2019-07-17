@@ -4,7 +4,7 @@
   "main": "node.js",
   "browser": "browser.js",
   "scripts": {
-    "test": "aegir test -t node browser",
+    "test": "nyc --check-coverage --branches 100 --functions 100 --lines 100 aegir test -t node browser",
     "pretest": "aegir lint"
   },
   "keywords": [],
