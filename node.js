@@ -1,4 +1,5 @@
 'use strict'
+const crypto = require('crypto')
 const fallback = require('./browser').from
 const bytes = require('./core')
 
@@ -23,5 +24,7 @@ bytes.native = (_from, encoding) => {
   _from = bytes(_from, encoding)
   return Buffer.from(_from.buffer, _from.byteOffset, _from.byteLength)
 }
+
+bytes.random = length => crypto.randomBytes(length).buffer
 
 module.exports = bytes

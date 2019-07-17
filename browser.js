@@ -1,4 +1,4 @@
-/* globals atob, btoa */
+/* globals atob, btoa, crypto */
 /* istanbul ignore file */
 'use strict'
 const bytes = require('./core')
@@ -43,6 +43,13 @@ bytes.native = (_from, encoding) => {
   if (_from instanceof Uint8Array) return _from
   _from = bytes.from(_from, encoding)
   return new Uint8Array(_from.buffer, _from.byteOffset, _from.byteLength)
+}
+
+bytes.random = length => {
+  const ab = new ArrayBuffer(length)
+  const view = new Uint8Array(ab)
+  crypto.getRandomValues(view)
+  return ab
 }
 
 module.exports = bytes

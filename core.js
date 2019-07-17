@@ -45,5 +45,23 @@ bytes.memcopySlice = (_from, start, end) => {
   const [buffer, offset, length] = sliceOptions(_from, start, end)
   return buffer.slice(offset, length + offset)
 }
+bytes.typedArray = (_from, _Class = Uint8Array) => {
+  _from = bytes(_from)
+  return new _Class(_from.buffer, _from.byteOffset, _from.byteLength / _Class.BYTES_PER_ELEMENT)
+}
+
+bytes.concat = (_from) => {
+  _from = Array.from(_from)
+  _from = _from.map(b => bytes(b))
+  const length = _from.reduce((x, y) => x + y.byteLength, 0)
+  const ret = new Uint8Array(length)
+  let i = 0
+  for (const part of _from) {
+    const view = bytes.typedArray(part)
+    ret.set(view, i)
+    i += view.byteLength
+  }
+  return ret.buffer
+}
 
 module.exports = bytes
