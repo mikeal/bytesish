@@ -29,12 +29,14 @@ convert back into an ideal type for the platform your library is running in.
 
 What `bytesish` does:
 
-* Returns an array buffer from any known binary type (*mostly* zero copy).
-* Creates an ArrayBuffer from a string with any encoding.
-* Converts an ArrayBuffer to a string of any encoding.
-* Converts an ArrayBuffer to an ideal native object (`Buffer` or `Uint8Array`).
+* Returns a `DataView` from any known binary type (zero copy).
+* Creates a `DataView` from a string with any encoding.
+* Converts any type to a string of any encoding.
+* Converts any to an ideal native object (`Buffer` or `Uint8Array`).
+* Provides utility functions for comparison, sorting, copying and slices
+any binary type or string.
 
-`bytesish` does not create a new Binary Type for basic accessing and manipulating of
+`bytesish` does not create a new Binary Type for accessing and manipulating
 binary data, because you can just use `DataView` for that. `bytesish` tries to be a
 small piece of code that does not contribute any more than necessary to your bundle size.
 It does this by containing only the binary operations you need that are difficult to
@@ -67,14 +69,26 @@ let viewCopy = bytes(base64String, 'base64')
 
 ### `bytes.compare(a, b)`
 
-### `bytes.native(from[, encoding])
+### `bytes.native(from[, encoding])`
+
+### `bytes.slice(from[, start=0[, end=from.byteLength]])`
 
 ## Optimized (memcopy only when necessary)
 
-### `bytes.arrayBuffer(_from[, encoding])` 
+### `bytes.arrayBuffer(from[, encoding])` 
 
 ## Memory Copy
 
 All binary API's that **must** do a memcopy are prefaced with `"memcopy"`.
+
+All memcopy APIs return an `ArrayBuffer`
+
+### `bytes.memcopy(from[, encoding])`
+
+Returns an `ArrayBuffer` copy of the given binary or string.
+
+### `bytes.memcopySlice(from[, start=0[, end=from.byteLength]])`
+
+Returns an `ArrayBuffer` copy from a slize of the given binary or string.
 
 ## String Conversions
