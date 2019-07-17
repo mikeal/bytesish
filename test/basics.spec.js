@@ -47,7 +47,6 @@ test('to array buffer', done => {
   const b = bytes('hello world')
   assert(a instanceof ArrayBuffer)
   assert(bytes.compare(a, b))
-  let c = bytes.arrayBuffer(a)
   assert(a, bytes.arrayBuffer(a))
   done()
 })
@@ -91,5 +90,3 @@ test('slice memcopy', done => {
   same(a, c)
   done()
 })
-
-
