@@ -63,7 +63,7 @@ let viewCopy = bytes(base64String, 'base64')
 
 ## Zero Copy
 
-### `bytes(from[, encoding])`
+### `bytes(from)`
 
 ### `bytes.sort(a, b)`
 
@@ -92,3 +92,7 @@ Returns an `ArrayBuffer` copy of the given binary or string.
 Returns an `ArrayBuffer` copy from a slize of the given binary or string.
 
 ## String Conversions
+
+### `bytes(from[, encoding])`
+
+### `bytes.toString(from[, outputEncoding])`
