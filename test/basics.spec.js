@@ -35,10 +35,20 @@ test('double view', done => {
   done()
 })
 
-test('array buffer', done => {
+test('from array buffer', done => {
   const a = bytes('hello world')
   const b = bytes(bytes.memcopy(a))
   same(bytes.toString(a), bytes.toString(b))
+  done()
+})
+
+test('to array buffer', done => {
+  const a = bytes.arrayBuffer('hello world')
+  const b = bytes('hello world')
+  assert(a instanceof ArrayBuffer)
+  assert(bytes.compare(a, b))
+  let c = bytes.arrayBuffer(a)
+  assert(a, bytes.arrayBuffer(a))
   done()
 })
 
@@ -62,3 +72,24 @@ test('native', done => {
   }
   done()
 })
+
+test('slice', done => {
+  const a = bytes.slice('hello world', 2, 7)
+  assert(a instanceof DataView)
+  const b = bytes.arrayBuffer('hello world').slice(2, 7)
+  same(b, bytes.arrayBuffer(a))
+  done()
+})
+
+test('slice memcopy', done => {
+  const a = bytes.memcopySlice('hello world', 2, 7)
+  assert(a instanceof ArrayBuffer)
+  const b = bytes.arrayBuffer('hello world').slice(2, 7)
+  same(b, a)
+  const c = bytes.memcopySlice(a)
+  assert(a !== c)
+  same(a, c)
+  done()
+})
+
+

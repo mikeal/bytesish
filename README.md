@@ -57,3 +57,24 @@ base64String = bytes.toString('hello world', 'base64')
 let viewCopy = bytes(base64String, 'base64')
 ```
 
+# API
+
+## Zero Copy
+
+### `bytes(from[, encoding])`
+
+### `bytes.sort(a, b)`
+
+### `bytes.compare(a, b)`
+
+### `bytes.native(from[, encoding])
+
+## Optimized (memcopy only when necessary)
+
+### `bytes.arrayBuffer(_from[, encoding])` 
+
+## Memory Copy
+
+All binary API's that **must** do a memcopy are prefaced with `"memcopy"`.
+
+## String Conversions

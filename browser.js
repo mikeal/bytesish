@@ -39,10 +39,10 @@ bytes.toString = (_from, encoding) => {
   }
 }
 
-bytes.native = arg => {
-  if (arg instanceof Uint8Array) return arg
-  arg = bytes.from(arg)
-  return new Uint8Array(arg.buffer, arg.byteOffset, arg.byteLength)
+bytes.native = (_from, encoding) => {
+  if (_from instanceof Uint8Array) return _from
+  _from = bytes.from(_from, encoding)
+  return new Uint8Array(_from.buffer, _from.byteOffset, _from.byteLength)
 }
 
 module.exports = bytes
