@@ -73,13 +73,13 @@ let viewCopy = bytes(base64String, 'base64')
 
 ### `bytes.slice(from[, start=0[, end=from.byteLength]])`
 
+### `bytes.typedArray(from[, Class=Uint8Array])`
+
 ## Optimized (memcopy only when necessary)
 
 ### `bytes.arrayBuffer(from[, encoding])` 
 
 ## Memory Copy
-
-All binary API's that **must** do a memcopy are prefaced with `"memcopy"`.
 
 All memcopy APIs return an `ArrayBuffer`
 
@@ -90,6 +90,12 @@ Returns an `ArrayBuffer` copy of the given binary or string.
 ### `bytes.memcopySlice(from[, start=0[, end=from.byteLength]])`
 
 Returns an `ArrayBuffer` copy from a slize of the given binary or string.
+
+### `bytes.concat(values)`
+
+`values` is an iterable of binary or string types.
+
+Returns a newly allocated `ArrayBuffer` contained the concatenated binary data.
 
 ## String Conversions
 

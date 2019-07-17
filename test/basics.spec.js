@@ -35,6 +35,15 @@ test('double view', done => {
   done()
 })
 
+test('typed array', done => {
+  const ab = bytes.random(4)
+  const view = bytes(ab)
+  const uint = bytes.typedArray(ab, Uint32Array)
+  assert(uint instanceof Uint32Array)
+  assert(bytes.compare(uint, view))
+  done()
+})
+
 test('from array buffer', done => {
   const a = bytes('hello world')
   const b = bytes(bytes.memcopy(a))
@@ -88,5 +97,16 @@ test('slice memcopy', done => {
   const c = bytes.memcopySlice(a)
   assert(a !== c)
   same(a, c)
+  done()
+})
+
+test('concat', done => {
+  let values = [bytes('1'), bytes.native('2'), bytes.arrayBuffer('3')]
+  let ab = bytes.concat(values)
+  assert(ab instanceof ArrayBuffer)
+  assert(bytes.compare(ab, '123'))
+  values = [bytes('one')]
+  ab = bytes.concat(values)
+  assert(bytes.compare(ab, 'one'))
   done()
 })
