@@ -25,6 +25,6 @@ bytes.native = (_from, encoding) => {
   return Buffer.from(_from.buffer, _from.byteOffset, _from.byteLength)
 }
 
-bytes.random = length => crypto.randomBytes(length).buffer
+bytes._randomFill = crypto.randomFillSync
 
 module.exports = bytes

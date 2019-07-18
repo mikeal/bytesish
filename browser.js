@@ -45,11 +45,6 @@ bytes.native = (_from, encoding) => {
   return new Uint8Array(_from.buffer, _from.byteOffset, _from.byteLength)
 }
 
-bytes.random = length => {
-  const ab = new ArrayBuffer(length)
-  const view = new Uint8Array(ab)
-  crypto.getRandomValues(view)
-  return ab
-}
+if (process.browser) bytes._randomFill = (...args) => crypto.getRandomValues(...args)
 
 module.exports = bytes

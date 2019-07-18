@@ -64,4 +64,25 @@ bytes.concat = (_from) => {
   return ret.buffer
 }
 
+const maxEntropy = 65536
+
+bytes.random = length => {
+  const ab = new ArrayBuffer(length)
+  if (length > maxEntropy) {
+    let i = 0
+    while (i < ab.byteLength) {
+      let len
+      if (i + maxEntropy > ab.byteLength) len = ab.byteLength - i
+      else len = maxEntropy
+      const view = new Uint8Array(ab, i, len)
+      i += maxEntropy
+      bytes._randomFill(view)
+    }
+  } else {
+    const view = new Uint8Array(ab)
+    bytes._randomFill(view)
+  }
+  return ab
+}
+
 module.exports = bytes

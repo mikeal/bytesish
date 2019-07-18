@@ -110,3 +110,11 @@ test('concat', done => {
   assert(bytes.compare(ab, 'one'))
   done()
 })
+
+test('random above max entropy', done => {
+  const maxEntropy = 65536
+  const size = (maxEntropy * 3) + 8
+  const rand = bytes.random(size)
+  same(rand.byteLength, size)
+  done()
+})
