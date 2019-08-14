@@ -1,10 +1,10 @@
 {
   "name": "bytesish",
-  "version": "0.0.0",
+  "version": "0.0.0-dev",
   "main": "node.js",
   "browser": "browser.js",
   "scripts": {
-    "test": "nyc --check-coverage --branches 100 --functions 100 --lines 100 aegir test -t node browser",
+    "test": "hundreds aegir test -t node browser",
     "pretest": "aegir lint"
   },
   "keywords": [],
@@ -12,9 +12,9 @@
   "license": "(Apache-2.0 AND MIT)",
   "devDependencies": {
     "aegir": "^20.0.0",
+    "hundreds": "0.0.1",
     "tsame": "^2.0.1"
   },
-  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mikeal/bytesish.git"
