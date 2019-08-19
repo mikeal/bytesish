@@ -1,5 +1,7 @@
 # `bytesish`
 
+![5002](https://img.shields.io/badge/compiled%20bundle-5k-green) ![1903](https://img.shields.io/badge/gzipped%20bundle-2k-brightgreen)
+
 If you're writing a library that needs to work in Node.js and in Browsers,
 it's quite difficult to figure out what "the right thing" to do with binary
 is.
