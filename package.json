@@ -11,8 +11,8 @@
   "author": "Mikeal Rogers <mikeal.rogers@gmail.com> (https://www.mikealrogers.com/)",
   "license": "(Apache-2.0 AND MIT)",
   "devDependencies": {
-    "aegir": "^20.0.0",
-    "hundreds": "0.0.1",
+    "aegir": "^20.4.1",
+    "hundreds": "0.0.2",
     "tsame": "^2.0.1"
   },
   "repository": {
